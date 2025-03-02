@@ -1,5 +1,5 @@
 """
-점화식 fn=2f(n-1)+ 2f(n-2)
+점화식 fn=2f(n-1)+ f(n-2)
 """
 # def count_case(cage):
 #     if cage == 1:
