@@ -35,4 +35,3 @@ for tc in range(T):
         num_list = '[' + ','.join(map(str, num_list)) + ']'
 
     print(num_list)
-
