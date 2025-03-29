@@ -1,36 +1,30 @@
-"""
-gg 아직 못함
-"""
-
+from itertools import product
 
 def solution(users, emoticons):
-    users.sort(key=lambda x : (x[0], x[1]))
-    emoticons.sort(reverse = True)
+    answer = [0, 0]
     
-    plus_user = 0
-    total_money = 0
-    
-    break_idx = []
+    for discounts in product([10, 20, 30, 40], repeat=len(emoticons)):
+        plus_member = 0
+        total_money = 0
 
-    
-    for idx, user in enumerate(users):
-        per_sale = user[0] // 10
-        if user[0] % 10 == 0:
-            per_sale = per_sale * 10
-        else:
-            per_sale = (per_sale + 1) * 10
+
+        for user_discount, user_money in users:
+            temp_money = 0
+            for i in range(len(emoticons)):
+                if discounts[i] >= user_discount:
+                    temp_money += emoticons[i] * (100 - discounts[i]) // 100
+                    
+            if temp_money >= user_money:
+                plus_member += 1
+
+            else:
+                total_money += temp_money
+
+        # 최적의 결과 갱신: 플러스 가입자 수 우선, 같으면 판매액 비교
+        if plus_member > answer[0] :
+            answer = [plus_member, total_money]
             
-        if sum(emoticons) * (100 - per_sale) / 100 >= user[1]:
-            plus_user += 1
-            
-        else:
-            break_idx.append(idx)
-            
-            
-    if break_idx:
-        print(break_idx)
-            
-    
-    answer = [plus_user, total_money]
+        elif plus_member == answer[0] and total_money > answer[1]:
+            answer[1] = total_money
+
     return answer
-
