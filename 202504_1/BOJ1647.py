@@ -8,7 +8,7 @@ def prim(start = 1):
     visited = [False] * (N + 1)
     key = [float('inf')] * (N + 1)
     total_cost = 0
-    max_cost = 0
+    max_cost = 0    # 이 문제는 두마을로 쪼개야해서 가장 비싼 간선을 끊고 마을을 2개로 나눈다.
     
     while pq:
         cur_cost, cur_i = heapq.heappop(pq)
