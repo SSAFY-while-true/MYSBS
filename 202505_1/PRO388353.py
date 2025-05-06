@@ -66,5 +66,3 @@ def solution(storage, requests):
                 answer += 1
 
     return answer
-
-print(solution(["AZWQY", "CAABX", "BBDDA", "ACACA"], ["A", "BB", "A"]))
