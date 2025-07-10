@@ -1,4 +1,5 @@
 N = int(input())
 
 ans = []
-print("test")
+b = 1
+
