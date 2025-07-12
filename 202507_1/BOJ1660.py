@@ -1,10 +1,10 @@
 N = int(input())
 
-triangle = 0
+triangle = 1
 tetrahedron = []
-tetrahedron_num = 0
+tetrahedron_num = 1
 
-for triangle_num in range(1, 125):  # 사면체 숫자 찾기
+for triangle_num in range(2, 125):  # 사면체 숫자 찾기/ 항상 +1 볼꺼니까 여기서는 2부터 늘어나게 세팅
     triangle += triangle_num
 
     tetrahedron_num += triangle
