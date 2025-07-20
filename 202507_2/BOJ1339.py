@@ -1,8 +1,6 @@
 from collections import defaultdict
 N = int(input())
 words = [list(input()) for _ in range(N)]
-words.sort()
-
 
 # 딕서너리에 배정시키는 작업을 하자
 
