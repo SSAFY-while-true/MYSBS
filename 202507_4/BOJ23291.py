@@ -1,10 +1,9 @@
-from collections import deque
 import sys
 import copy
 input = sys.stdin.readline
 
 # 물고기 나누기
-def distributre_fish(move_tank):
+def distribute_fish(move_tank):
     new_tank = copy.deepcopy(move_tank)
     height = len(move_tank)
     width = len(move_tank[-1])
@@ -51,6 +50,8 @@ def distributre_fish(move_tank):
 
     return new_tank
 
+
+
 # 평탄화 하기
 def flatten_tank(move_tank):
     top_len = len(move_tank[-1])
@@ -64,11 +65,9 @@ def flatten_tank(move_tank):
 
     return new_tank
 
-def flip():
-    pass
 
 # 물고기 배정하기
-def lesson1():
+def lesson1(fish_tank):
     # 그림 1 구현
     min_idxs = []
     min_val = float("INF")
@@ -82,6 +81,8 @@ def lesson1():
     for min_idx in min_idxs:
         fish_tank[min_idx] += 1
 
+    return fish_tank
+
 # 어항을 쌓고 분배하고 다시 내리기
 def lesson2(fish_tank):
 
@@ -91,7 +92,7 @@ def lesson2(fish_tank):
     move_tank.append([fish_tank[0]])
 
     # print(list(map(list, zip(*move_tank))))
-    total_len = 1
+    total_len = 1                  
     while True:
         floor = len(move_tank)  # 옆으로 넘어갈 길이
         bottom_len = len(move_tank[0]) # 바닥에 남은 길이
@@ -102,28 +103,68 @@ def lesson2(fish_tank):
         
         new_tank =list(map(list, zip(*move_tank)))
 
-        total_len += total_len
+        total_len += top_len
 
         move_tank= [fish_tank[total_len:]]
         for idx in range(len(new_tank)-1, -1, -1):
             move_tank.append(new_tank[idx])
 
 
-    move_tank = distributre_fish(move_tank)
+    move_tank = distribute_fish(move_tank)
     move_tank = flatten_tank(move_tank)
     return move_tank
 
 def lesson3(fish_tank):
-    move_tank = 
-        
+    move_tank = []
+    for rep in range(1, 3):
+        if rep == 1:
+            move_tank.append(fish_tank[N//2:])
+            move_tank.append(fish_tank[:N//2])
+        else:
+            now_N = len(move_tank[0])
+            new_tank = [move_tank[0][now_N//2:]]
+            new_tank.append(move_tank[1][now_N//2:])
+            new_tank.append(move_tank[0][:now_N//2])
+            new_tank.append(move_tank[1][:now_N//2])
+            move_tank = new_tank
+        for i in range(rep, rep*2):
+            if N != 4:
+                for j in range(N//(4*rep)):
+                    # 처음은 1층만 보면되고
+                    # 두번재에는 2층과 3층이 서로 스왑되야한다
+                    if i == 1:
+                        s_i = 1
+                    elif i == 2:
+                        s_i = 3
+                    elif i == 3:
+                        s_i = 2
+
+                    move_tank[i][j], move_tank[s_i][N//(2*rep) - 1 - j] = move_tank[s_i][N//(2*rep) - 1 - j], move_tank[i][j]
+            else:
+                for j in range(1):
+                    if i == 1:
+                        s_i = 1
+                    elif i == 2:
+                        s_i = 3
+                    elif i == 3:
+                        continue
+
+                    move_tank[i][j], move_tank[s_i][N//(2*rep) - 1 - j] = move_tank[s_i][N//(2*rep) - 1 - j], move_tank[i][j]
+
+    move_tank = distribute_fish(move_tank)
+    move_tank = flatten_tank(move_tank)
+    return move_tank
+
+       
 
 N, K = map(int, input().split())
 fish_tank = list(map(int, input().split()))
 
-setp = 0
+step = 0
+while max(fish_tank) - min(fish_tank) > K:
+    fish_tank = lesson1(fish_tank)
+    fish_tank = lesson2(fish_tank)
+    fish_tank = lesson3(fish_tank)
+    step += 1
 
-lesson1()
-fish_tank = lesson2(fish_tank)
-fish_tank = lesson3(fish_tank)
-
-print(fish_tank)
+print(step)
